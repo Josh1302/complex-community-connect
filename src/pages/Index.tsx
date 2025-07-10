@@ -15,34 +15,26 @@ import {
 } from "lucide-react";
 import { LoginForm } from "@/components/LoginForm";
 import { SignUpForm } from "@/components/SignUpForm";
-import { CommunityFeed } from "@/components/CommunityFeed";
+import { useNavigate } from "react-router-dom";
 
-const Index = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+interface IndexProps {
+  onLogin: (userData: { name: string; email: string }) => void;
+}
+
+const Index = ({ onLogin }: IndexProps) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const navigate = useNavigate();
 
   const handleLogin = (userData: { name: string; email: string }) => {
-    setUser(userData);
-    setIsLoggedIn(true);
-    setShowLogin(false);
+    onLogin(userData);
+    navigate('/general');
   };
 
   const handleSignUp = (userData: { name: string; email: string }) => {
-    setUser(userData);
-    setIsLoggedIn(true);
-    setShowSignUp(false);
+    onLogin(userData);
+    navigate('/general');
   };
-
-  const handleLogout = () => {
-    setUser(null);
-    setIsLoggedIn(false);
-  };
-
-  if (isLoggedIn) {
-    return <CommunityFeed user={user} onLogout={handleLogout} />;
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
