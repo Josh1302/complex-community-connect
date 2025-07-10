@@ -67,7 +67,7 @@ export const SignUpForm = ({ onClose, onSignUp, onSwitchToLogin }: SignUpFormPro
           </button>
           <div className="flex items-center justify-center space-x-2 mb-4">
             <Home className="h-6 w-6 text-blue-600" />
-            <span className="text-lg font-semibold">Harmony Heights</span>
+            <span className="text-lg font-semibold">Summer Grove</span>
           </div>
           <CardTitle className="text-2xl font-bold">Join Your Community</CardTitle>
           <CardDescription>
