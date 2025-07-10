@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,7 +43,7 @@ const Index = ({ onLogin }: IndexProps) => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
               <Home className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">Harmony Heights</span>
+              <span className="text-xl font-bold text-gray-900">Summer Grove</span>
             </div>
             <div className="flex space-x-3">
               <Button 
@@ -79,7 +78,7 @@ const Index = ({ onLogin }: IndexProps) => {
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
             Stay connected, share updates, and build stronger relationships with fellow residents 
-            at Harmony Heights. Your community, your voice, your home.
+            at Summer Grove. Your community, your voice, your home.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -242,10 +241,10 @@ const Index = ({ onLogin }: IndexProps) => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
               <Home className="h-6 w-6" />
-              <span className="text-lg font-semibold">Harmony Heights Community</span>
+              <span className="text-lg font-semibold">Summer Grove Community</span>
             </div>
             <div className="text-gray-400 text-sm">
-              © 2024 Harmony Heights. Building stronger communities together.
+              © 2024 Summer Grove. Building stronger communities together.
             </div>
           </div>
         </div>

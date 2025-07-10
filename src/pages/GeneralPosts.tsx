@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -85,7 +84,7 @@ export const GeneralPosts = ({ user, onLogout }: GeneralPostsProps) => {
             <div className="flex items-center space-x-2">
               <Link to="/" className="flex items-center space-x-2">
                 <Home className="h-8 w-8 text-blue-600" />
-                <span className="text-xl font-bold text-gray-900">Harmony Heights</span>
+                <span className="text-xl font-bold text-gray-900">Summer Grove</span>
               </Link>
             </div>
             <div className="flex items-center space-x-4">
