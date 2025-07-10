@@ -1,9 +1,11 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { FileUpload } from "@/components/FileUpload";
 import { 
   Home, 
   LogOut, 
@@ -11,7 +13,11 @@ import {
   Plus,
   Heart,
   MessageCircle,
-  Share2
+  Share2,
+  Image,
+  Video,
+  FileText,
+  File
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
@@ -21,6 +27,12 @@ interface GeneralPostsProps {
   onLogout: () => void;
 }
 
+interface FileItem {
+  file: File;
+  preview?: string;
+  type: 'image' | 'video' | 'document' | 'other';
+}
+
 interface Post {
   id: number;
   author: string;
@@ -28,6 +40,7 @@ interface Post {
   timestamp: string;
   likes: number;
   comments: number;
+  files?: FileItem[];
 }
 
 const initialPosts: Post[] = [
@@ -52,10 +65,11 @@ const initialPosts: Post[] = [
 export const GeneralPosts = ({ user, onLogout }: GeneralPostsProps) => {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [newPost, setNewPost] = useState("");
+  const [attachedFiles, setAttachedFiles] = useState<FileItem[]>([]);
   const { toast } = useToast();
 
   const handleSubmitPost = () => {
-    if (!newPost.trim()) return;
+    if (!newPost.trim() && attachedFiles.length === 0) return;
 
     const post: Post = {
       id: Date.now(),
@@ -63,16 +77,27 @@ export const GeneralPosts = ({ user, onLogout }: GeneralPostsProps) => {
       content: newPost,
       timestamp: "Just now",
       likes: 0,
-      comments: 0
+      comments: 0,
+      files: attachedFiles.length > 0 ? attachedFiles : undefined
     };
 
     setPosts([post, ...posts]);
     setNewPost("");
+    setAttachedFiles([]);
     
     toast({
       title: "Post shared!",
       description: "Your message has been shared with the community.",
     });
+  };
+
+  const getFileIcon = (type: string) => {
+    switch (type) {
+      case 'image': return <Image className="h-4 w-4" />;
+      case 'video': return <Video className="h-4 w-4" />;
+      case 'document': return <FileText className="h-4 w-4" />;
+      default: return <File className="h-4 w-4" />;
+    }
   };
 
   return (
@@ -139,9 +164,10 @@ export const GeneralPosts = ({ user, onLogout }: GeneralPostsProps) => {
               onChange={(e) => setNewPost(e.target.value)}
               className="min-h-[100px] border-gray-200 focus:border-blue-500"
             />
+            <FileUpload files={attachedFiles} onFilesChange={setAttachedFiles} />
             <Button 
               onClick={handleSubmitPost}
-              disabled={!newPost.trim()}
+              disabled={!newPost.trim() && attachedFiles.length === 0}
               className="bg-blue-600 hover:bg-blue-700"
             >
               Share Post
@@ -173,6 +199,42 @@ export const GeneralPosts = ({ user, onLogout }: GeneralPostsProps) => {
                 </div>
                 
                 <p className="text-gray-700 mb-4 leading-relaxed">{post.content}</p>
+                
+                {/* Display attached files */}
+                {post.files && post.files.length > 0 && (
+                  <div className="mb-4 space-y-2">
+                    <div className="text-sm font-medium text-gray-600">Attachments:</div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {post.files.map((fileItem, index) => (
+                        <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+                          {fileItem.type === 'image' && fileItem.preview && (
+                            <img 
+                              src={fileItem.preview} 
+                              alt="Attachment" 
+                              className="w-8 h-8 object-cover rounded cursor-pointer hover:scale-105 transition-transform"
+                            />
+                          )}
+                          {fileItem.type !== 'image' && (
+                            <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center">
+                              {getFileIcon(fileItem.type)}
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-medium truncate">
+                              {fileItem.file.name}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {(fileItem.file.size / 1024 / 1024).toFixed(1)} MB
+                            </div>
+                          </div>
+                          <Badge variant="secondary" className="text-xs">
+                            {fileItem.type}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 
                 <div className="flex items-center space-x-6 text-sm text-gray-500">
                   <button className="flex items-center space-x-1 hover:text-red-600 transition-colors">
