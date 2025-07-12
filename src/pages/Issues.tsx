@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,8 +22,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 
 interface IssuesProps {
-  user: { name: string; email: string } | null;
+  user: { name: string; email: string; unitNumber?: string; bio?: string; profilePicture?: string } | null;
   onLogout: () => void;
+  onUserUpdate: (userData: { name: string; email: string; unitNumber?: string; bio?: string; profilePicture?: string }) => void;
 }
 
 interface FileItem {
@@ -62,7 +62,7 @@ const initialIssues: Issue[] = [
   }
 ];
 
-export const Issues = ({ user, onLogout }: IssuesProps) => {
+export const Issues = ({ user, onLogout, onUserUpdate }: IssuesProps) => {
   const [issues, setIssues] = useState<Issue[]>(initialIssues);
   const [newIssue, setNewIssue] = useState("");
   const [attachedFiles, setAttachedFiles] = useState<FileItem[]>([]);
