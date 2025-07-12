@@ -135,6 +135,11 @@ export const GeneralPosts = ({ user, onLogout, onUserUpdate }: GeneralPostsProps
                     Marketplace
                   </Button>
                 </Link>
+                <Link to="/neighbors">
+                  <Button variant="outline" size="sm">
+                    Neighbors
+                  </Button>
+                </Link>
               </div>
               <UserProfile user={user} onUserUpdate={onUserUpdate} />
               <Button 

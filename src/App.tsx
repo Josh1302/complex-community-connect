@@ -9,6 +9,7 @@ import { GeneralPosts } from "./pages/GeneralPosts";
 import { Issues } from "./pages/Issues";
 import { Events } from "./pages/Events";
 import { Marketplace } from "./pages/Marketplace";
+import { Neighbors } from "./pages/Neighbors";
 import { useState, useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -73,6 +74,7 @@ const AppContent = () => {
           <Route path="/issues" element={<Issues user={user} onLogout={handleLogout} onUserUpdate={handleUserUpdate} />} />
           <Route path="/events" element={<Events user={user} onLogout={handleLogout} onUserUpdate={handleUserUpdate} />} />
           <Route path="/marketplace" element={<Marketplace user={user} onLogout={handleLogout} onUserUpdate={handleUserUpdate} />} />
+          <Route path="/neighbors" element={<Neighbors user={user} onLogout={handleLogout} onUserUpdate={handleUserUpdate} />} />
         </>
       )}
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
