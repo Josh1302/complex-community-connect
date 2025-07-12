@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,10 +20,12 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
+import { UserProfile } from "@/components/UserProfile";
 
 interface GeneralPostsProps {
-  user: { name: string; email: string } | null;
+  user: { name: string; email: string; unitNumber?: string; bio?: string; profilePicture?: string } | null;
   onLogout: () => void;
+  onUserUpdate: (userData: any) => void;
 }
 
 interface FileItem {
@@ -62,7 +63,7 @@ const initialPosts: Post[] = [
   }
 ];
 
-export const GeneralPosts = ({ user, onLogout }: GeneralPostsProps) => {
+export const GeneralPosts = ({ user, onLogout, onUserUpdate }: GeneralPostsProps) => {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [newPost, setNewPost] = useState("");
   const [attachedFiles, setAttachedFiles] = useState<FileItem[]>([]);
@@ -129,8 +130,13 @@ export const GeneralPosts = ({ user, onLogout }: GeneralPostsProps) => {
                     Events
                   </Button>
                 </Link>
+                <Link to="/marketplace">
+                  <Button variant="outline" size="sm">
+                    Marketplace
+                  </Button>
+                </Link>
               </div>
-              <span className="text-sm text-gray-600">Welcome, {user?.name}!</span>
+              <UserProfile user={user} onUserUpdate={onUserUpdate} />
               <Button 
                 variant="ghost" 
                 size="sm"

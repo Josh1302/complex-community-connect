@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,13 +8,14 @@ import NotFound from "./pages/NotFound";
 import { GeneralPosts } from "./pages/GeneralPosts";
 import { Issues } from "./pages/Issues";
 import { Events } from "./pages/Events";
+import { Marketplace } from "./pages/Marketplace";
 import { useState, useEffect } from "react";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; email: string; unitNumber?: string; bio?: string; profilePicture?: string } | null>(null);
   const navigate = useNavigate();
 
   // Load user data from localStorage on component mount
@@ -45,6 +45,13 @@ const AppContent = () => {
     localStorage.setItem('summerGroveLoggedIn', 'true');
   };
 
+  const handleUserUpdate = (userData: { name: string; email: string; unitNumber?: string; bio?: string; profilePicture?: string }) => {
+    setUser(userData);
+    
+    // Update localStorage
+    localStorage.setItem('summerGroveUser', JSON.stringify(userData));
+  };
+
   const handleLogout = () => {
     setUser(null);
     setIsLoggedIn(false);
@@ -62,9 +69,10 @@ const AppContent = () => {
       <Route path="/" element={<Index onLogin={handleLogin} />} />
       {isLoggedIn && (
         <>
-          <Route path="/general" element={<GeneralPosts user={user} onLogout={handleLogout} />} />
-          <Route path="/issues" element={<Issues user={user} onLogout={handleLogout} />} />
-          <Route path="/events" element={<Events user={user} onLogout={handleLogout} />} />
+          <Route path="/general" element={<GeneralPosts user={user} onLogout={handleLogout} onUserUpdate={handleUserUpdate} />} />
+          <Route path="/issues" element={<Issues user={user} onLogout={handleLogout} onUserUpdate={handleUserUpdate} />} />
+          <Route path="/events" element={<Events user={user} onLogout={handleLogout} onUserUpdate={handleUserUpdate} />} />
+          <Route path="/marketplace" element={<Marketplace user={user} onLogout={handleLogout} onUserUpdate={handleUserUpdate} />} />
         </>
       )}
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
